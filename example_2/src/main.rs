@@ -70,7 +70,7 @@ fn fizz_or_buzz() {
             } else if n % 5 == 0 && n % 3 != 0 {
                 "Buzz but not Fizz".to_string()
             } else {
-                "Not Fizz or Buzz".to_string()
+                "Not Fizz and Buzz".to_string()
             }
         }
         Err(_) => "Invalid input. Please enter a valid integer.".to_string()
