@@ -60,6 +60,22 @@ fn search_insert (nums: Vec<i32>, target: i32) -> i32 {
     };
 }
 
+fn plus_one (digits: Vec<u16>) -> Vec<u16> {
+    let mut result = digits.clone();
+
+    for num in result.iter_mut().rev() {
+        if *num != 9 {
+            *num += 1;
+            return result;
+        } else {
+            *num = 0;
+        }
+    }
+
+    result.insert(0, 1);
+    return result;
+}
+
 fn main() {}
 
 #[test]
@@ -88,4 +104,8 @@ fn it_works() {
     assert_eq!(search_insert(vec![1,3,5,9], 5), 2);
     assert_eq!(search_insert(vec![1,3,5,9], 4), 2);
     assert_eq!(search_insert(vec![1,3,5,9], 2), 1);
+
+    //Plus One
+    assert_eq!(plus_one(vec![9]), vec![1,0]);
+    assert_eq!(plus_one(vec![1,2,3]), vec![1,2,4]);
 }
