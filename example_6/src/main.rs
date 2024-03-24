@@ -31,14 +31,41 @@ fn validate_pin(pin: &str) -> bool {
     return (chars == 4 || chars == 6) && (only_numeric.len() == 4 || only_numeric.len() == 6) && chars == only_numeric.len();
 }
 
-fn nb_year(p0: i32, percent: f64, aug: i32, p: i32)-> i32 {
-    let sum = p0 + p0 * (percent as i32 / 100) + 100;
-    println!("{:?}", sum);
-    return 2;
+fn break_string(s: &str) -> Vec<String> {
+    return s
+        .chars()
+        .collect::<Vec<char>>()
+        .chunks(2)
+        .map(|c| if c.len() == 2 {
+            c.iter().collect::<String>()
+        } else {
+            c.iter().collect::<String>() + "_"
+        })
+        .collect::<Vec<String>>();
+}
+
+fn break_camel_case(s: &str) -> bool {
+    let mut array: Vec<String> = vec![];
+    let mut temporary_string: String = String::from("");
+    for el in s.chars() {
+        println!("{:?}", temporary_string);
+
+        if el.is_ascii_uppercase() {
+            array.push(temporary_string);
+            temporary_string = String::from("");
+            temporary_string.push_str(&String::from(el));
+        } else {
+            temporary_string.push_str(&String::from(el));
+        }
+    }
+
+    println!("{:?}", array);
+
+    return false;
 }
 
 fn main() {
-    println!("{:?}", nb_year(1500, 5.0, 100, 5000));
+    break_camel_case("helloWorld");
 }
 
 #[test]
