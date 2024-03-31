@@ -1,3 +1,3 @@
-pub mod json;
+pub mod json_parser;
 pub mod user;
 pub mod cli;

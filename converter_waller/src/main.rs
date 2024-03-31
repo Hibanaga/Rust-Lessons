@@ -1,11 +1,10 @@
 use converter_waller::classes::{
-    cli::{self, Cli}, json::{ JsonParser, WalletData }, user::UserInteraction
+    cli::{Cli},
+    json_parser::{JsonParser, WalletData}
 };
 
 fn main() {
     let mut cli = Cli::new();
 
     cli.add_wallet_from_menu();
-
-    // println!("{:?}", );
 }

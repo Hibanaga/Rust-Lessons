@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 
 use super::{
-    json::{JsonParser, WalletData}, 
+    json_parser::{JsonParser, WalletData}, 
     user::UserInteraction
 };
 
@@ -42,7 +42,7 @@ impl Cli {
             let enter_index: u8 = self.user.read_int();
             match enter_index {
                 0 => self.add_wallet_from_menu(),
-                1 => self.add_wallet_from_menu(),
+                1 => self.add_wallet_to_menu(),
                 _ => {
                     println!("Opss... You provide something what can't process");
                     break;
@@ -77,6 +77,22 @@ impl Cli {
                         let search_input: String = self.user.read_string();
 
                         let picked_wallet: WalletData = self.json.search_wallet(search_input.as_str());
+                        if picked_wallet.name != "" {
+                            println!("\n");
+                            println!("You picked wallet 'CONVERT_FROM' is code: {:?} | name: {:?}", picked_wallet.code, picked_wallet.name);
+                            self.convert_from = picked_wallet;
+                            break;
+                        } else {
+                            println!("Try again. Because you provide unsupportable wallet information");
+                        }
+                    }
+                },
+                3 => {
+                    loop {
+                        println!("Please enter id of searhing wallet from list(Pick number from 0 to {:?})", self.json.list_wallets().len() - 1);
+                        let search_idx: u8 = self.user.read_int();
+
+                        let picked_wallet: WalletData = self.json.search_wallet_by_idx(search_idx);
                         if picked_wallet.name != "" {
                             println!("\n");
                             println!("You picked wallet 'CONVERT_FROM' is code: {:?} | name: {:?}", picked_wallet.code, picked_wallet.name);

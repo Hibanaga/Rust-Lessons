@@ -75,4 +75,17 @@ impl JsonParser {
                 },
         };
     }
+
+
+    pub fn search_wallet_by_idx(&self, idx: u8)-> WalletData {
+        let wallets = Self::list_wallets(&self);
+
+        return match wallets.get(idx as usize) {
+            Some(wallet) => wallet.clone(),
+            None => WalletData {
+                code: String::from(""),
+                name: String::from(""),
+            },
+        }
+    }
 }
