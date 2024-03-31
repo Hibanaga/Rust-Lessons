@@ -1,39 +1,36 @@
 mod classes {
     pub mod user;
     pub mod json;
-    mod Json;
+    pub mod Json;
 }
 
-use classes::json::{ JsonParser, WalletData };
-use classes::user::UserInteraction;
+use classes::{json::{ JsonParser, WalletData }, user::UserInteraction};
 
 fn main() {
     let json_parser_instance: JsonParser = JsonParser::new();
+    let user_instance: UserInteraction = UserInteraction::new();
 
-    println!("{:?}", json_parser_instance.display_wallet_list());
-    // println!("{:?}", json_parser_instance.display_wallet_list());
+    loop {
+        println!("\n");
+        println!("Select Menu element");
+        println!("1. Get wallets list");
+        println!("2. Search by wallet");
+        let enter_index: u8 = user_instance.read_int();
 
-    // let wallet_to_convert: String = UserInteraction::read_wallet();
-    // println!("Entered wallet: {}", wallet_to_convert);
+        match enter_index {
+            1 => println!("{:?}", json_parser_instance.get_json_btree()),
+            2 => {
+                let input_value = user_instance.read_string().clone();
+                let wallet = json_parser_instance.search_wallet(input_value.as_str());
 
-    // let wallet_to_convert_amount: u8 = UserInteraction::read_amount();
-    // println!("Entered wallet: {}", wallet_to_convert_amount);
+                println!("{:?}", wallet);
 
-    // let wallets_to_convert = classes::UserInteraction::read_wallets(2);
-    // println!("Entered wallet: {:?}", wallets_to_convert);
-
-    // let json_data: Result<_, Box<dyn std::error::Error>> = ;
-    
-    // println!("{:?}", wallets);
-
-    // if let Ok(Value::Array(array)) = json_data {
-    //     if let Some(element) = array.first() {
-    //         println!("Code: {}", element["code"].as_str().unwrap());
-    //         println!("Name: {}", element["name"].as_str().unwrap());
-    //     } else {
-    //         println!("Array is empty");
-    //     }
-    // } else {
-    //     eprintln!("Error: Failed to process JSON data");
-    // }
+                
+            },
+            _ => {
+                println!("Provide wrong number");
+                break;
+            },
+        }
+    }
 }

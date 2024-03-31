@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fs};
+use std::{collections::BTreeMap, fs};
 
 use serde_json::{from_str, Value};
 
@@ -28,8 +28,6 @@ impl JsonParser {
         let data: Value = from_str(&contents).expect("Error parsing JSON data");
         let mut wallets: Vec<WalletData> = Vec::new();
 
-        println!("fff");
-
         if let Value::Array(array) = data {
             for element in array.iter() {
                 if let Value::Object(json_map) = element {
@@ -53,21 +51,26 @@ impl JsonParser {
         return wallets;
     }
 
-pub fn display_wallet_list(&self) -> HashMap<usize, WalletData> {
-    let mut wallet_map: HashMap<usize, WalletData> = HashMap::new();
-    let mut index = 0;
-    for wallet in Self::list_wallets(&self) {
-        wallet_map.insert(index, wallet);
-        index += 1;
+    pub fn get_json_btree(&self) -> BTreeMap<usize, WalletData> {
+        let mut wallet_map: BTreeMap<usize, WalletData> = BTreeMap::new();
+        let mut index = 0;
+        for wallet in Self::list_wallets(&self) {
+            wallet_map.insert(index, wallet);
+            index += 1;
+        }
+
+        return wallet_map;
     }
 
-    let mut entries: Vec<_> = wallet_map.drain().collect();
-
-    entries.sort_by_key(|x| x.0);
-
-    let sorted_map: HashMap<usize, WalletData> = entries.into_iter().collect();
-
-    return sorted_map;
+    pub fn search_wallet(&self, search: &str)-> WalletData {
+        let wallets = Self::list_wallets(&self);
+        return match wallets.iter()
+            .position(|wallet| wallet.code.starts_with(search) || wallet.name.starts_with(search)) {
+                Some(index) => wallets[index].clone(), // Wallet found
+                None => WalletData {
+                    code: String::from("--"),
+                    name: String::from("Not Found Wallet with that name"),
+                },
+        };
+    }
 }
-
- }

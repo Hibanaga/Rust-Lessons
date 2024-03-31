@@ -1,10 +1,10 @@
 use std::io;
 
+#[derive(impl_new::New)]
 pub struct UserInteraction {}
 
 impl UserInteraction {
-    pub fn read_wallet() -> String {
-        println!("Enter a wallet: ");
+    pub fn read_string(&self) -> String {
         let mut guess = String::new();
         io::stdin()
             .read_line(&mut guess)
@@ -13,8 +13,7 @@ impl UserInteraction {
         return guess.trim().to_string();
     }
 
-    pub fn read_amount() -> u8 {
-        println!("Enter a amount: ");
+    pub fn read_int(&self) -> u8 {
         let mut string = String::new();
 
         io::stdin()
@@ -26,20 +25,6 @@ impl UserInteraction {
             Ok(i) => i,
             Err(..) => panic!("Passed wrong data"),
         }
-    }
-    
-    pub fn read_wallets(count: u8) -> Vec<String> {
-        let mut vec_wallets = Vec::with_capacity(count as usize);
-
-        let mut i = 0;
-        while i < count {
-            let wallet = Self::read_wallet();
-
-            vec_wallets.push(wallet);
-            i += 1;
-        }
-
-        return vec_wallets;
     }
 }
 
