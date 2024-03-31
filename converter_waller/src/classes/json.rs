@@ -64,8 +64,10 @@ impl JsonParser {
 
     pub fn search_wallet(&self, search: &str)-> WalletData {
         let wallets = Self::list_wallets(&self);
+        let lower_case_search = String::from(search.to_lowercase());
+
         return match wallets.iter()
-            .position(|wallet| wallet.code.starts_with(search) || wallet.name.starts_with(search)) {
+            .position(|wallet| wallet.code.to_lowercase().starts_with(&lower_case_search) || wallet.name.to_lowercase().starts_with(&lower_case_search)) {
                 Some(index) => wallets[index].clone(),
                 None => WalletData {
                     code: String::from("--"),
