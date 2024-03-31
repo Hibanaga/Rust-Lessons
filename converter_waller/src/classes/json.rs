@@ -70,8 +70,8 @@ impl JsonParser {
             .position(|wallet| wallet.code.to_lowercase().starts_with(&lower_case_search) || wallet.name.to_lowercase().starts_with(&lower_case_search)) {
                 Some(index) => wallets[index].clone(),
                 None => WalletData {
-                    code: String::from("--"),
-                    name: String::from("Not Found Wallet with that name"),
+                    code: String::from(""),
+                    name: String::from(""),
                 },
         };
     }

@@ -26,10 +26,18 @@ impl Cli {
         loop {
             println!("\n");
             println!("Welcome to wallet converter CLI. Please pick a option.");
+
+            let convert_from = &self.convert_from;
+            if convert_from.code != "" {
+                println!("\n");
+                println!("CONVERT FROM: code: {:?}, name: {:?}", convert_from.code, convert_from.name);
+                println!("\n");
+            }
+
             println!("1. Pick wallet 'CONVERT FROM'");
             println!("2. Add wallet 'CONVERT TO'");
-            println!("2. Modify wallet to convert");
-            println!("3. List added wallets");
+            println!("2. Modify wallet 'CONVERT TO'");
+            println!("3. Remove wallet from vec 'CONVERT TO'");
 
             let enter_index: u8 = self.user.read_int();
             match enter_index {
@@ -64,13 +72,12 @@ impl Cli {
             match enter_index {
                 1 => Self::display_wallets(self.json.get_json_btree()),
                 2 => {
-
                     loop {
                         println!("Please enter name or wallet code");
                         let search_input: String = self.user.read_string();
-                        let picked_wallet: WalletData = self.json.search_wallet(search_input.as_str());
 
-                        if !picked_wallet.name.contains("Not Found") {
+                        let picked_wallet: WalletData = self.json.search_wallet(search_input.as_str());
+                        if picked_wallet.name != "" {
                             println!("\n");
                             println!("You picked wallet 'CONVERT_FROM' is code: {:?} | name: {:?}", picked_wallet.code, picked_wallet.name);
                             self.convert_from = picked_wallet;
