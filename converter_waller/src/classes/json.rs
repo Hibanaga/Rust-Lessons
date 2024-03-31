@@ -66,7 +66,7 @@ impl JsonParser {
         let wallets = Self::list_wallets(&self);
         return match wallets.iter()
             .position(|wallet| wallet.code.starts_with(search) || wallet.name.starts_with(search)) {
-                Some(index) => wallets[index].clone(), // Wallet found
+                Some(index) => wallets[index].clone(),
                 None => WalletData {
                     code: String::from("--"),
                     name: String::from("Not Found Wallet with that name"),

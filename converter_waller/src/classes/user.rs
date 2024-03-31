@@ -27,7 +27,3 @@ impl UserInteraction {
         }
     }
 }
-
-mod user_mode {
-
-}
